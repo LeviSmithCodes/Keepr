@@ -1,4 +1,4 @@
--- USE keepr13;
+USE keepr17;
 
 -- CREATE TABLE vaults (
 --     id int NOT NULL AUTO_INCREMENT,
@@ -9,19 +9,19 @@
 --     PRIMARY KEY (id)
 -- );
 
--- CREATE TABLE keeps (
---     id int NOT NULL AUTO_INCREMENT,
---     name VARCHAR(255) NOT NULL,
---     description VARCHAR(255) NOT NULL,
---     userId VARCHAR(255),
---     img VARCHAR(255),
---     isPrivate TINYINT,
---     views INT DEFAULT 0,
---     shares INT DEFAULT 0,
---     keeps INT DEFAULT 0,
---     INDEX userId (userId),
---     PRIMARY KEY (id)
--- );
+CREATE TABLE keeps (
+    id int NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    userId VARCHAR(255),
+    img VARCHAR(255),
+    isPrivate TINYINT,
+    views INT DEFAULT 0,
+    shares INT DEFAULT 0,
+    keeps INT DEFAULT 0,
+    INDEX userId (userId),
+    PRIMARY KEY (id)
+);
 
 -- CREATE TABLE vaultkeeps (
 --     id int NOT NULL AUTO_INCREMENT,
@@ -42,11 +42,14 @@
 --         ON DELETE CASCADE
 -- )
 
+SELECT * 
+FROM vaultkeeps
 
--- -- USE THIS LINE FOR GET KEEPS BY VAULTID
--- SELECT k.* FROM vaultkeeps vk
--- INNER JOIN keeps k ON k.id = vk.keepId 
--- WHERE (vaultId = @vaultId AND vk.userId = @userId) 
+
+-- USE THIS LINE FOR GET KEEPS BY VAULTID
+SELECT k.* FROM vaultkeeps vk
+INNER JOIN keeps k ON k.id = vk.keepId 
+WHERE (vaultId = @vaultId AND vk.userId = @userId) 
 
 
 
