@@ -9,19 +9,19 @@ USE keepr17;
 --     PRIMARY KEY (id)
 -- );
 
-CREATE TABLE keeps (
-    id int NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    userId VARCHAR(255),
-    img VARCHAR(255),
-    isPrivate TINYINT,
-    views INT DEFAULT 0,
-    shares INT DEFAULT 0,
-    keeps INT DEFAULT 0,
-    INDEX userId (userId),
-    PRIMARY KEY (id)
-);
+-- CREATE TABLE keeps (
+--     id int NOT NULL AUTO_INCREMENT,
+--     name VARCHAR(255) NOT NULL,
+--     description VARCHAR(255) NOT NULL,
+--     userId VARCHAR(255),
+--     img VARCHAR(255),
+--     isPrivate TINYINT,
+--     views INT DEFAULT 0,
+--     shares INT DEFAULT 0,
+--     keeps INT DEFAULT 0,
+--     INDEX userId (userId),
+--     PRIMARY KEY (id)
+-- );
 
 -- CREATE TABLE vaultkeeps (
 --     id int NOT NULL AUTO_INCREMENT,
@@ -44,6 +44,18 @@ CREATE TABLE keeps (
 
 SELECT * 
 FROM vaultkeeps
+
+
+UPDATE keeps
+SET 
+name = "A manual keep",
+description = "i hope you're happy EDITED",
+img = "fake",
+isPrivate = false,
+views = 0,
+shares = 0,
+keeps = 0
+WHERE id = 36; 
 
 
 -- USE THIS LINE FOR GET KEEPS BY VAULTID

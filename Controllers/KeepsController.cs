@@ -63,6 +63,22 @@ namespace Keepr.Controllers
       }
     }
 
+    [HttpPut("{id}")]
+    [Authorize]
+    public ActionResult<Keep> Put([FromBody] Keep editedKeep, int id)
+    {
+      try
+      {
+        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        editedKeep.UserId = userId;
+        return Ok(_ks.Edit(editedKeep, id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
     [HttpDelete("{id}")]
     [Authorize]
     public ActionResult<String> Delete(int id)

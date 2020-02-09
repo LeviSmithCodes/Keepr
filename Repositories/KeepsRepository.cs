@@ -36,10 +36,29 @@ namespace Keepr.Repositories
       return id;
     }
 
+    internal void Edit(Keep editedKeep, int id)
+    {
+      string sql = @"
+            UPDATE keeps
+            SET 
+            name = @Name,
+            description = @Description,
+            img = @Img,
+            isPrivate = @IsPrivate,
+            views = @Views,
+            shares = @Shares,
+            keeps = @Keeps
+            WHERE id = @id; 
+            ";
+      _db.Execute(sql, new { id, editedKeep.Name, editedKeep.Description, editedKeep.Img, editedKeep.IsPrivate, editedKeep.Views, editedKeep.Shares, editedKeep.Keeps });
+    }
+
     internal void Delete(int id, string userId)
     {
       string sql = "DELETE FROM keeps WHERE id = @id AND userId = @userId";
       _db.Execute(sql, new { id, userId });
     }
+
+
   }
 }

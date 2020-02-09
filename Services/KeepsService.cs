@@ -21,7 +21,8 @@ namespace Keepr.Services
     {
       Keep exists = _repo.GetById(id, userId);
       if (exists == null) { throw new Exception("Invalid Id"); }
-      if (exists.UserId != userId) { throw new Exception("Cannot delete things you did not create"); }
+      // I don't know why this threw an error when the delete didn't (maybe it created it's own?)... oh wait, I don't want thsi logic. Duh. Ppl should be able to see the public posts of others by Id. 
+      // if (exists.UserId != userId) { throw new Exception("Cannot get things you did not create"); }
       return exists;
     }
 
@@ -31,6 +32,16 @@ namespace Keepr.Services
       return newKeep;
     }
 
+    public Keep Edit(Keep editedKeep, int id)
+    {
+      Keep exists = _repo.GetById(id, editedKeep.UserId);
+      if (exists == null) { throw new Exception("Invalid Id"); }
+      if (exists.UserId != editedKeep.UserId) { throw new Exception("Cannot edit things you did not create"); }
+      _repo.Edit(editedKeep, id);
+      return editedKeep;
+
+
+    }
     internal object Delete(int id, string userId)
     {
       Keep exists = _repo.GetById(id, userId);
@@ -39,5 +50,7 @@ namespace Keepr.Services
       _repo.Delete(id, userId);
       return "Successfully Deleted";
     }
+
+
   }
 }
