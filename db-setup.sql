@@ -46,16 +46,16 @@ SELECT *
 FROM vaultkeeps
 
 
-UPDATE keeps
-SET 
-name = "A manual keep",
-description = "i hope you're happy EDITED",
-img = "fake",
-isPrivate = false,
-views = 0,
-shares = 0,
-keeps = 0
-WHERE id = 36; 
+-- UPDATE keeps
+-- SET 
+-- name = "A manual keep",
+-- description = "i hope you're happy EDITED",
+-- img = "fake",
+-- isPrivate = false,
+-- views = 0,
+-- shares = 0,
+-- keeps = 0
+-- WHERE id = 36; 
 
 
 -- USE THIS LINE FOR GET KEEPS BY VAULTID
