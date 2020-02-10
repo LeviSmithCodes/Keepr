@@ -25,24 +25,24 @@ namespace Keepr.Repositories
       return id;
     }
 
-    internal VaultKeep GetById(int id, string userId)
+    internal VaultKeep GetByIds(int vaultId, int keepId, string userId)
     {
-      string sql = "SELECT * FROM vaultkeeps WHERE id = @id AND userId = @userId";
-      return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id, userId });
+      string sql = "SELECT * FROM vaultkeeps WHERE vaultId = @vaultId AND keepId = @keepId AND userId = @userId";
+      return _db.QueryFirstOrDefault<VaultKeep>(sql, new { vaultId, keepId, userId });
     }
 
-    internal void Delete(int id, string userId)
+    internal void Delete(int vaultId, int keepId, string userId)
     {
-      string sql = "DELETE FROM vaultkeeps WHERE id = @id AND userId = @userId";
-      _db.Execute(sql, new { id, userId });
+      string sql = "DELETE FROM vaultkeeps WHERE vaultId = @vaultId AND keepId = @keepId AND userId = @userId";
+      _db.Execute(sql, new { vaultId, keepId, userId });
     }
 
-    internal IEnumerable<Keep> GetKeepsByVaultId(VaultKeep exists)
+    internal IEnumerable<Keep> GetKeepsByVaultId(int vaultId, string userId)
     {
       string sql = @"SELECT k.* FROM vaultkeeps vk
       INNER JOIN keeps k ON k.id = vk.keepId
       WHERE (vk.vaultId = @vaultId AND vk.userId = @userId)";
-      return _db.Query<Keep>(sql, exists);
+      return _db.Query<Keep>(sql, new { vaultId, userId });
     }
   }
 }
