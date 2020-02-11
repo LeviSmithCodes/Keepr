@@ -1,6 +1,6 @@
 <template>
   <div class="home container-fluid">
-    <h1>All Public Keeps</h1>
+    <h1>ALL PUBLIC KEEPS</h1>
     <div class="row">
       <div class="col-lg-4 col-sm-6" v-for="keep in keeps" :key="keep._id">
         <div class="card">
@@ -12,6 +12,7 @@
             <select
               class="form-control"
               @change="createVaultKeep($event, keep.id)"
+              v-if="$auth.isAuthenticated"
             >
               <option value selected disabled>Add to Vault</option>
               <option
