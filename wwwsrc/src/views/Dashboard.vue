@@ -1,6 +1,41 @@
 <template>
   <div class="dashboard container-fluid">
-    <h1>WELCOME TO THE DASHBOARD</h1>
+    <h1>WELCOME TO YOUR DASHBOARD</h1>
+    <h5>Create a Vault:</h5>
+    <div class="card">
+      <div class="card-body">
+        <form @submit.prevent="createVault">
+          <input type="text" placeholder="Vault Name" v-model="newVault.name" required />
+          <input
+            type="text"
+            placeholder="Vault Description"
+            v-model="newVault.description"
+            required
+          />
+          <button class="btn btn-success" type="submit">Add Vault</button>
+        </form>
+      </div>
+    </div>
+    <br />
+    <h5>Your Created Vaults:</h5>
+    <div class="row">
+      <div class="col-lg-4 col-sm-6" v-for="vault in userVaults" :key="vault._id">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{vault.name}}</h5>
+            <button
+              id="deleteVault"
+              class="btn btn-danger float-right"
+              @click="deleteVault(vault.id)"
+            >Delete</button>
+
+            <p class="card-text">{{vault.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
     <h5>Create a Keep:</h5>
     <div class="card">
       <div class="card-body">
@@ -45,6 +80,11 @@
           <img class="card-img" :src="keep.img" />
           <div class="card-body">
             <h5 class="card-title">{{keep.name}}</h5>
+            <button
+              id="deleteKeep"
+              class="btn btn-danger float-right"
+              @click="deleteKeep(keep.id)"
+            >Delete</button>
 
             <p class="card-text">{{keep.description}}</p>
             <br />
@@ -72,15 +112,23 @@ export default {
         views: 0,
         shares: 0,
         keeps: 0
+      },
+      newVault: {
+        name: "",
+        description: ""
       }
     };
   },
   mounted() {
     this.$store.dispatch("getUserKeeps");
+    this.$store.dispatch("getUserVaults");
   },
   computed: {
     userKeeps() {
       return this.$store.state.userKeeps;
+    },
+    userVaults() {
+      return this.$store.state.userVaults;
     }
   },
   methods: {
@@ -96,6 +144,21 @@ export default {
         shares: 0,
         keeps: 0
       };
+    },
+    deleteKeep(keepId) {
+      // console.log("keepId from DeleteKeep is", keepId);
+      this.$store.dispatch("deleteKeep", keepId);
+    },
+    createVault() {
+      let vault = { ...this.newVault };
+      this.$store.dispatch("createVault", vault);
+      this.newVault = {
+        name: "",
+        description: ""
+      };
+    },
+    deleteVault(vaultId) {
+      this.$store.dispatch("deleteVault", vaultId);
     }
   }
 };
