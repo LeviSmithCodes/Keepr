@@ -26,11 +26,18 @@ namespace Keepr.Services
       return exists;
     }
 
+
+    public IEnumerable<Keep> GetKeepsByUserId(string userId)
+    {
+      return _repo.GetKeepsByUserId(userId);
+    }
+
     public Keep Create(Keep newKeep)
     {
       newKeep.Id = _repo.Create(newKeep);
       return newKeep;
     }
+
 
     public Keep Edit(Keep editedKeep, int id)
     {

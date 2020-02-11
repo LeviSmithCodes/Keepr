@@ -20,6 +20,12 @@ namespace Keepr.Repositories
       string sql = "SELECT * FROM keeps WHERE isPrivate = 0;";
       return _db.Query<Keep>(sql);
     }
+
+    internal IEnumerable<Keep> GetKeepsByUserId(string userId)
+    {
+      string sql = "SELECT * FROM keeps WHERE userId = @userId";
+      return _db.Query<Keep>(sql, new { userId });
+    }
     internal Keep GetById(int id, string userId)
     {
       string sql = "SELECT * FROM keeps WHERE id = @id AND (isPrivate = 0 OR userId = @userId)";
@@ -35,6 +41,8 @@ namespace Keepr.Repositories
       int id = _db.ExecuteScalar<int>(sql, KeepData);
       return id;
     }
+
+
 
     internal void Edit(Keep editedKeep, int id)
     {

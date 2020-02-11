@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard container-fluid">
     <h1>WELCOME TO THE DASHBOARD</h1>
     <h5>Create a Keep:</h5>
     <div class="card">
@@ -37,6 +37,26 @@
       </div>
     </div>
     <!-- public {{ publicKeeps }} user {{ userKeeps }} -->
+    <br />
+    <h5>Your Created Keeps:</h5>
+    <div class="row">
+      <div class="col-lg-4 col-sm-6" v-for="keep in userKeeps" :key="keep._id">
+        <div class="card">
+          <img class="card-img" :src="keep.img" />
+          <div class="card-body">
+            <h5 class="card-title">{{keep.name}}</h5>
+
+            <p class="card-text">{{keep.description}}</p>
+            <br />
+            Views: {{keep.views}}
+            <br />
+            Shares: {{keep.shares}}
+            <br />
+            Keeps: {{keep.keeps}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -55,8 +75,14 @@ export default {
       }
     };
   },
-  mounted() {},
-  computed: {},
+  mounted() {
+    this.$store.dispatch("getUserKeeps");
+  },
+  computed: {
+    userKeeps() {
+      return this.$store.state.userKeeps;
+    }
+  },
   methods: {
     createKeep() {
       let keep = { ...this.newKeep };
