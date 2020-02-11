@@ -6,15 +6,27 @@
         <div class="card">
           <img class="card-img" :src="keep.img" />
           <div class="card-body">
-            <h5 class="card-title">{{keep.name}}</h5>
-
-            <p class="card-text">{{keep.description}}</p>
+            <h5 class="card-title">{{ keep.name }}</h5>
+            <p class="card-text">{{ keep.description }}</p>
             <br />
-            Views: {{keep.views}}
+            <select
+              class="form-control"
+              @change="createVaultKeep($event, keep.id)"
+            >
+              <option value selected disabled>Add to Vault</option>
+              <option
+                v-for="vault in userVaults"
+                :value="vault.id"
+                :key="vault.id"
+                >{{ vault.name }}</option
+              >
+            </select>
             <br />
-            Shares: {{keep.shares}}
+            Views: {{ keep.views }}
             <br />
-            Keeps: {{keep.keeps}}
+            Shares: {{ keep.shares }}
+            <br />
+            Keeps: {{ keep.keeps }}
           </div>
         </div>
       </div>
@@ -34,11 +46,19 @@ export default {
     },
     keeps() {
       return this.$store.state.publicKeeps;
+    },
+    userVaults() {
+      return this.$store.state.userVaults;
     }
   },
   methods: {
     logout() {
       this.$store.dispatch("logout");
+    },
+    createVaultKeep(event, KeepId) {
+      let VaultId = parseInt(event.target.value);
+      let vaultKeep = { VaultId, KeepId };
+      this.$store.dispatch("createVaultKeep", vaultKeep);
     }
   }
 };

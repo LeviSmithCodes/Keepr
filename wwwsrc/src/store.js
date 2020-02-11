@@ -19,7 +19,9 @@ export default new Vuex.Store({
   state: {
     publicKeeps: [],
     userKeeps: [],
-    userVaults: []
+    userVaults: [],
+    activeVault: [],
+    vaultKeeps: []
   },
   mutations: {
     setPublicKeeps(state, publicKeeps) {
@@ -33,6 +35,15 @@ export default new Vuex.Store({
     setUserVaults(state, userVaults) {
       state.userVaults = [];
       state.userVaults.push(...userVaults);
+      console.log("setUserVaults says userVaults is", state.userVaults);
+    },
+    setActiveVault(state, activeVault) {
+      state.activeVault = [];
+      state.activeVault.push(activeVault);
+    },
+    setVaultKeeps(state, vaultKeeps) {
+      state.vaultKeeps = [];
+      state.vaultKeeps.push(...vaultKeeps);
     }
   },
   actions: {
@@ -88,6 +99,30 @@ export default new Vuex.Store({
       try {
         let res = await api.delete("Vaults/" + vaultId);
         dispatch("getUserVaults");
+      } catch (error) {
+        console.warn(error.message);
+      }
+    },
+    async getVaultById({ commit, dispatch }, vaultId) {
+      try {
+        let res = await api.get("Vaults/" + vaultId);
+        // console.log("store says results of get vault by id is", res);
+        commit("setActiveVault", res.data);
+      } catch (error) {
+        console.warn(error.message);
+      }
+    },
+    async createVaultKeep({ commit, dispatch }, vaultKeep) {
+      try {
+        let res = await api.post("VaultKeeps", vaultKeep);
+      } catch (error) {
+        console.warn(error.message);
+      }
+    },
+    async getKeepsByVaultId({ commit, dispatch }, vaultId) {
+      try {
+        let res = await api.get("VaultKeeps/" + vaultId + "/Keeps");
+        commit("setVaultKeeps", res.data);
       } catch (error) {
         console.warn(error.message);
       }
