@@ -11,32 +11,7 @@
           v-for="keep in vaultKeeps"
           :key="keep._id"
         >
-          <div class="card mb-3">
-            <img class="card-img" :src="keep.img" />
-            <div class="card-body">
-              <h5 class="card-title">{{ keep.name }}</h5>
-              <p class="card-text">{{ keep.description }}</p>
-              <br />
-              <select
-                class="form-control"
-                @change="createVaultKeep($event, keep.id)"
-              >
-                <option value selected disabled>Add to Vault</option>
-                <option
-                  v-for="vault in userVaults"
-                  :value="vault.id"
-                  :key="vault.id"
-                  >{{ vault.name }}</option
-                >
-              </select>
-              <br />
-              Views: {{ keep.views }}
-              <br />
-              Shares: {{ keep.shares }}
-              <br />
-              Keeps: {{ keep.keeps }}
-            </div>
-          </div>
+          <keep-component :keep="keep" :activeVault="activeVault" />
         </div>
       </div>
     </div>
@@ -44,6 +19,7 @@
 </template>
 
 <script>
+import KeepComponent from "../components/Keep.vue";
 export default {
   name: "vault",
   mounted() {
@@ -66,9 +42,16 @@ export default {
       let VaultId = parseInt(event.target.value);
       let vaultKeep = { VaultId, KeepId };
       this.$store.dispatch("createVaultKeep", vaultKeep);
+    },
+    removeKeepFromVault(keepId, vaultId) {
+      let vaultKeep = { vaultId, keepId };
+      this.$store.dispatch("deleteVaultKeep", vaultKeep);
     }
   },
-  props: ["vaultId"]
+  props: ["vaultId"],
+  components: {
+    KeepComponent
+  }
 };
 </script>
 
